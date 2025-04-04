@@ -98,3 +98,10 @@ out/
 
 # Mac and Windows system files
 Thumbs.db
+
+dist/
+
+# Generated files
+__pycache__/
+
+*.jsonl
