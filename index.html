@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Memory Forge</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+        background: #111;
+        color: #eee;
+      }
+      input,
+      textarea,
+      button {
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        font-size: 1rem;
+      }
+      textarea {
+        height: 300px;
+      }
+      #file {
+        display: none; /* Hide the native file input */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧠 Memory Forge</h1>
+
+    <label for="title">Memory Title:</label>
+    <input
+      type="text"
+      id="title"
+      placeholder="e.g. Defying Authority and Skipping School"
+    />
+
+    <!-- Hidden file input -->
+    <input type="file" id="file" />
+
+    <!-- Button that triggers file picker -->
+    <button id="process">Select .txt or .mp3 File</button>
+
+    <label for="preview">Formatted Memory Preview:</label>
+    <textarea id="preview" readonly></textarea>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const fileInput = document.getElementById("file");
+        const titleInput = document.getElementById("title");
+        const previewArea = document.getElementById("preview");
+        const processBtn = document.getElementById("process");
+
+        processBtn.addEventListener("click", async () => {
+          try {
+            const filePath = await window.api.selectFile([
+              { name: "Text & Audio", extensions: ["txt", "mp3"] },
+            ]);
+
+            if (!filePath) return;
+
+            const title = titleInput.value.trim();
+            if (!title) {
+              alert("Please enter a memory title.");
+              return;
+            }
+
+            const ext = filePath.split(".").pop().toLowerCase();
+
+            if (ext === "txt") {
+              const result = await window.api.processTranscript(
+                filePath,
+                title
+              );
+              previewArea.value = result;
+            } else if (ext === "mp3") {
+              previewArea.value = "🎧 Transcribing audio...";
+              const result = await window.api.transcribeAudio(filePath, title);
+              previewArea.value = result;
+            } else {
+              alert("Unsupported file type. Use .txt or .mp3");
+            }
+          } catch (err) {
+            previewArea.value = `❌ Error: ${err}`;
+            console.error(err);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
