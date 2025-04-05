@@ -1,92 +1,250 @@
+<!-- 
+Memory Forge - A tool for processing text and audio files into formatted memories
+
+This HTML file provides a simple interface for:
+- Converting text files (.txt) or audio files (.mp3, .wav, .ogg, .m4a) into structured data
+- Supporting two output modes: RAG (Retrieval-Augmented Generation) and SFT (Supervised Fine-Tuning)
+- Previewing the formatted output before saving
+
+The application uses Electron APIs to handle file selection and processing. 
+-->
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Memory Forge</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        padding: 2rem;
-        background: #111;
-        color: #eee;
-      }
-      input,
-      textarea,
-      button {
-        width: 100%;
-        margin-bottom: 1rem;
-        padding: 0.5rem;
-        font-size: 1rem;
-      }
-      textarea {
-        height: 300px;
-      }
-      #file {
-        display: none; /* Hide the native file input */
-      }
-    </style>
-  </head>
-  <body>
-    <h1>🧠 Memory Forge</h1>
+<head>
+  <meta charset="UTF-8">
+  <title>Memory Forge</title>
+  <!-- 
+    CSS Styling:
+    - Sets up a dark theme with light text
+    - Makes form elements take full width
+    - Sets appropriate spacing and font sizes
+  -->
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #111;
+      color: #eee;
+    }
+    input, textarea, button, select {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    textarea {
+      height: 300px;
+    }
+    #file {
+      display: none;
+    }
+    
+    #settings {
+      margin-bottom: 1.5rem;
+      background-color: #333;
+      color: #eee;
+      border: 1px solid #555;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    #settings:hover {
+      background-color: #444;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Memory Forge</h1>
+  <button id="settings">⚙️ Configure Default Directories</button>
 
+  <!-- 
+    Mode Selection:
+    - Allows user to choose between RAG and SFT output formats
+    - The selected mode determines which input fields are shown
+  -->
+  <label for="mode">Select Output Mode:</label>
+  <select id="mode">
+    <option value="rag">RAG Memory</option>
+    <option value="sft">SFT Data</option>
+  </select>
+
+  <!-- 
+    RAG Mode Input:
+    - Shown when RAG mode is selected
+    - Collects a title for the memory
+  -->
+  <div id="rag-title-group">
     <label for="title">Memory Title:</label>
-    <input
-      type="text"
-      id="title"
-      placeholder="e.g. Defying Authority and Skipping School"
-    />
+    <input type="text" id="title" placeholder="e.g. Defying Authority and Skipping School">
+  </div>
 
-    <!-- Hidden file input -->
-    <input type="file" id="file" />
+  <!-- 
+    SFT Mode Input:
+    - Shown when SFT mode is selected
+    - Collects an instruction or question about the content
+    - Hidden by default
+  -->
+  <div id="sft-instruction-group" style="display: none;">
+    <label for="instruction">SFT Instruction:</label>
+    <input type="text" id="instruction" placeholder="e.g. What did the speaker say about politics?">
+  </div>
 
-    <!-- Button that triggers file picker -->
-    <button id="process">Select .txt or .mp3 File</button>
+  <!-- 
+    File Selection:
+    - Hidden file input (not directly visible to users)
+    - Actual file selection happens through the button below
+  -->
+  <input type="file" id="file" />
 
-    <label for="preview">Formatted Memory Preview:</label>
-    <textarea id="preview" readonly></textarea>
+  <!-- Button that triggers the file selection dialog -->
+  <button id="process">Select .txt or .mp3 File</button>
 
-    <script>
-      window.addEventListener("DOMContentLoaded", () => {
-        const fileInput = document.getElementById("file");
-        const titleInput = document.getElementById("title");
-        const previewArea = document.getElementById("preview");
-        const processBtn = document.getElementById("process");
-
-        processBtn.addEventListener("click", async () => {
-          try {
-            const filePath = await window.api.selectFile([
-              { name: "Text & Audio", extensions: ["txt", "mp3"] },
-            ]);
-
-            if (!filePath) return;
-
-            const title = titleInput.value.trim();
-            if (!title) {
-              alert("Please enter a memory title.");
-              return;
-            }
-
-            const ext = filePath.split(".").pop().toLowerCase();
-
-            if (ext === "txt") {
-              const result = await window.api.processTranscript(
-                filePath,
-                title
-              );
-              previewArea.value = result;
-            } else if (ext === "mp3") {
-              previewArea.value = "🎧 Transcribing audio...";
-              const result = await window.api.transcribeAudio(filePath, title);
-              previewArea.value = result;
-            } else {
-              alert("Unsupported file type. Use .txt or .mp3");
-            }
-          } catch (err) {
-            previewArea.value = `❌ Error: ${err}`;
-            console.error(err);
-          }
-        });
+  <!-- 
+    Output Preview:
+    - Shows the formatted result after processing
+    - Read-only to prevent user edits
+  -->
+  <label for="preview">Formatted Memory Preview:</label>
+  <textarea id="preview" readonly></textarea>
+  <script>
+    // Main script that runs when the page is fully loaded
+    window.addEventListener("DOMContentLoaded", () => {
+      // Get references to all HTML elements we need to interact with
+      const fileInput = document.getElementById("file");
+      const titleInput = document.getElementById("title");
+      const instructionInput = document.getElementById("instruction");
+      const previewArea = document.getElementById("preview");
+      const processBtn = document.getElementById("process");
+      const modeSelect = document.getElementById("mode");
+      const titleGroup = document.getElementById("rag-title-group");
+      const instructionGroup = document.getElementById("sft-instruction-group");
+      const settingsBtn = document.getElementById("settings"); // Add this line
+      
+      // Add the settings button handler
+      settingsBtn.addEventListener("click", async () => {
+        try {
+          const result = await window.electronAPI.setDefaultDirectories();
+          console.log("Default directories set:", result);
+          
+          // Instead of an alert, show a temporary message in the preview area
+          previewArea.value = `Default directories configured:\n\nOpen files from: ${result.openDirectory}\nSave files to: ${result.saveDirectory}`;
+          
+          // Clear the message after a few seconds
+          setTimeout(() => {
+            previewArea.value = "";
+          }, 10000);
+          
+        } catch (err) {
+          console.error("Error setting directories:", err);
+          previewArea.value = "Failed to set default directories.";
+        }
       });
-    </script>
-  </body>
+
+    
+      /**
+       * Mode Toggle Function
+       * Purpose: Shows/hides the appropriate input fields based on selected mode
+       * Input: User selection from the mode dropdown
+       * Output: Visual change - shows title field for RAG mode or instruction field for SFT mode
+       */
+      modeSelect.addEventListener("change", () => {
+        const mode = modeSelect.value;
+        if (mode === "rag") {
+          titleGroup.style.display = "block";
+          instructionGroup.style.display = "none";
+        } else {
+          titleGroup.style.display = "none";
+          instructionGroup.style.display = "block";
+        }
+      });
+  
+      /**
+       * File Selection Button Handler
+       * Purpose: Opens file selection dialog using Electron's API
+       * Input: User click on the button
+       * Output: Calls handleFile with the selected file path
+       */
+      processBtn.addEventListener("click", async () => {
+        // Use the file selector API that accepts both text and audio files
+        const filePath = await window.electronAPI.selectFile();
+        if (filePath) {
+          handleFile(filePath);
+        }
+      });
+  
+      /**
+       * File Input Change Handler
+       * Purpose: Alternative way to handle file selection (standard HTML way)
+       * Input: File selected through the hidden file input
+       * Output: Calls handleFile with the selected file path
+       */
+      fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        if (file) {
+          handleFile(file.path);
+        }
+      });
+  
+      /**
+       * File Processing Function
+       * Purpose: Processes the selected file based on its type and the selected mode
+       * Inputs:
+       *  - filePath: Path to the selected file
+       *  - title: Title for RAG mode (from input field)
+       *  - instruction: Instruction for SFT mode (from input field)
+       *  - mode: Selected output format (RAG or SFT)
+       * Output: Formatted text in the preview area or error message
+       */
+      async function handleFile(filePath) {
+        // Get values from input fields
+        const title = titleInput.value.trim();
+        const instruction = instructionInput.value.trim();
+        const mode = modeSelect.value;
+  
+        // Validate inputs
+        if (!filePath) {
+          alert("Please select a .txt or .mp3 file.");
+          return;
+        }
+  
+        if (mode === "rag" && !title) {
+          alert("Please enter a memory title for RAG mode.");
+          return;
+        }
+  
+        if (mode === "sft" && !instruction) {
+          alert("Please enter an instruction for SFT mode.");
+          return;
+        }
+  
+        // Get file extension to determine file type
+        const ext = filePath.split(".").pop().toLowerCase();
+  
+        try {
+          // Process text files
+          if (ext === "txt") {
+            const result = await window.electronAPI.processTranscript(filePath, title, instruction, mode);
+            previewArea.value = result;
+          } 
+          // Process audio files
+          else if (["mp3", "wav", "ogg", "m4a"].includes(ext)) {
+            previewArea.value = "🎧 Transcribing audio...";
+            const result = await window.electronAPI.transcribeAudio(filePath, title, instruction, mode);
+            previewArea.value = result;
+          } 
+          // Handle unsupported file types
+          else {
+            alert("Unsupported file type. Use .txt or audio files (.mp3, .wav, .ogg, .m4a)");
+          }
+        } catch (err) {
+          // Display any errors that occur during processing
+          previewArea.value = `❌ Error: ${err}`;
+          console.error(err);
+        }
+      }
+    });
+  </script>
+  
+</body>
 </html>
