@@ -159,10 +159,77 @@ def suggest_tags(text, top_n=5):
             r"\b(love(d|s)?|euphoria|nostalgic|adore(d|s)?|cherish(ed)?|fond of|attachment|affection(ate)?|heartwarming)\b",
             r"\b(accomplish(ed|ment)|satisf(ied|action)|content(ed|ment)?|proud|confiden(t|ce)|fulfilled|empower(ed|ing)?)\b",
             r"\b(grateful|thankful|fortunate|blessed)\b",
-            # Casual / modern slang
-            r"\b((was|is|be)( super )?(dope|tight))\b",
-            r"\b(tight\s+tight|super\s+dope|that'?s\s+(dope|fire)|so\s+money|fucking\s+fire|(?:is|was|be)\s+fire|straight\s+gas|is\s+gas|banger|that'?s?\s+slaps|this\s+slaps|it\s+slaps|shit\s+slaps)\b|[🔥💯]{1,}",
-            r"\b(sick at|that'?s sick)\b",
+            
+        ],
+        "joy_happiness": [
+            r"\b(happ(y|iness|iest|ier))\b",
+            r"\b(heartfelt|positivity|celebrat(e|ing|ions?))\b",
+            r"\b(joy(ful|ous)?)\b",
+            r"\b(content(ed|ment)?)\b",
+            r"\b(elat(ed|ion))\b",
+            r"\b(euphori(a|c))\b",
+            r"\b(ecsta(sy|tic))\b",
+            r"\b(delight(ful|ed)?)\b",
+            r"\b(proud|pride|fantastic|stoked|cheerful)\b",
+            r"\b(radiant|exuberan(ce|t)|jovial|jubilant)\b",
+            r"\b(glee(ful)?)\b",
+            r"\b((absolutely )?buzzing)\b",
+            r"\b(smil(es?|ing)|beaming)\b",
+            r"\b(warm glow)\b",
+            r"\b(bless(ed|ings?)?|bliss(ful)?)\b",
+            r"\b(enjoy(ed|ment|ing)?)\b",
+            r"\b(overjoyed|glad|excite(d|ment)?|thrilled|satisf(ied|action))\b",
+            r"\b(gratitude|grateful(ness)?|thankful)\b",
+            r"\b((that|it) (was|is) (dope|fire|tight|sick))\b",
+            r"\b((dopest)|(tight\s?){2,3}|(tii*ght|doo*pe))\b",
+            r"\b((felt|feel|feels|feeling|was|is( going to be)?) (great|amazing|good))\b",
+            r"(😄|😃|😀|😁|😊|☺️|😇|😌)+",
+            r"(🥳|🎉|🎊|🎈|🎂|🍾)+",
+            r"(✨|🌟|🌞|🌈|💫)+",
+            r"(🧘|🌿)+",
+        ],
+        "love_affection": [
+            r"\b(love(d|ing)?|((fall(ing)?|fell) in love)|affection(ate)?|ador(ed?|ation|ing))\b",
+            r"\b(devot(ed|tion)|cherish(ed)?|fond(ness)?|beloved|dearest|soulmate|twin flame)\b",
+            r"\b(sweet(heart|ie)|cutie|baby\s*(girl|doll)|darling)\b",
+            r"\b((sexy|smoke show|fitty)|((so|super|stupid) (fine|fit))|(absolute dime)|(you('re|are|re) (hot|a dime|fit|fine)))\b",
+            r"\b(passion(ate)?|dat(ing|ed)|hook(ing) up|fuck[- ]?budd(y|ies)|casual(ly)? dat(ed?|ing)|in a relationship)\b",
+            r"\b(crazy (about|into) (you|her|him))\b",
+            r"\b(head over heels|smitten)\b",
+            r"\b(went on (our(\s+first)?|a) date)\b",
+            r"\b((marr(y|ied|iage))|got engaged|fiance|fianc(é|ée)|wife(y)?|(husband(s|'s)?)|(spouse('?s)?)|(my girl('?s)?)|(girlfriend('?s)?)|(boyfriend('?s)?))\b",
+            r"(❤️‍🔥|🫶|💖|💘|💝|💓|😘|🥰)+",
+            r"(💍|💒|👰|🤵‍♂️|👩‍❤️‍👨)+"
+        ],
+        "anger_frustration": [
+            r"\b(mad|furious|upset(ting)?|pissed off|boiling with rage|seeing red|ticked off|annoyed|enraged|losing your cool|on the warpath|fuming|seething|hot under the collar|irate|going ballistic|livid|in a rage)\b",
+            r"\b(anger(ed|ing)?|wrath(ful)?|temper|tantrum|irked|throw a fit|bitch fit|((me|was) heated)|blow off steam|(los(t|e|ing) (your|his|her|their) temper)|see red)\b",
+            r"\b(irritate(d|ing)?|fed up|at my wit's end|(can't stand (it|that))|driv(ing|es) me nuts|had enough|thr(ew|owing) a fit|los(t|e|ing) it|blowing a gasket|on edge)\b",
+            r"\b(reach(ing|ed)?\s?(my|a|his|her|their)? boiling point|ready to snap|up in arms|exasperat(ed|ing)|hit(ting)? a wall|((about to|gonna|going to) (flip|freak)\s?(the fuck)? (out)|(los(e|t|ing) (my|his|her|their|your) (shit))))\b",
+            r"(😠|😡|🤬|😤|👿|👺|💢|🥵|😾|🙅|🙅‍♂️|🙅‍♀️)+", 
+        ],
+          "fear_anxiety": [
+            r"\b(fear(ful|ed|s)?|anxi(ety|ous)|scare(d|y)?|worry(ing)?|stress(ful|ing|ed)?)\b",
+            r"\b(nervous(ly)?|panic(ked|king)?|phobias?|dread(ful|ing|ed)?|apprehensive(ly|ness)?|uneas(y|iness)?)\b",
+            r"\b(jitters|freak(ed|ing)? out|feel on edge|scaredy-cat|cold feet|pussy|coward|punk|bitch[- ]?made)\b"
+        ],
+        "sadness_grief": [
+
+        ],
+        "tense_unfomfortable":[
+
+        ],
+        "shock_disbelief": [
+
+        ],
+        "embarrassment_shame": [
+
+        ],
+        "excitement_anticipation": [
+
+        ],
+        "hope_inspiration": [
+
         ],
 
         "negative": [
@@ -175,9 +242,9 @@ def suggest_tags(text, top_n=5):
             r"\b(anger|angrier|angriest|furious|irate|outraged|rage|enraged)\b",
             r"\b(exhaust(ed|ing)|stress(ed|ful)|burn(t|ed) out)\b",
             r"\b(hate(d|s)?|detest(ed)?|loathe(d)?|despise(d)?|resent(ed|ments?|ful)?|contempt|disdain)\b",
-            r"\b(frustrat(ed|ing|ion)|annoy(ed|ing)|irritat(ed|ing))\b"
+            r"\b(frustrat(ed|ing|ion)|annoy(ed|ing)|irritat(ed|ing))\b",
         ],
-        "humor": [
+        "humor_laughter": [
             r"\b(funny|hilarious|lol|joke(d|s|r)?|banter|jest(ing)?|joking|kidding|amusing|comedy|comedic|humor(ous)?)\b",
             r"\b(roasted|laughed|laugh(ed|ing|ter)?|clown|absurd|ridiculous|chuckle(d)?|giggle(d)?|snicker(ed)?|guffaw(ed)?)\b",
             r"\b(sarcastic|sarcas(m|tic)|dark humor|meme|ironic|irony|prank(ed)?|facetious|tongue.in.cheek)\b",
@@ -188,14 +255,7 @@ def suggest_tags(text, top_n=5):
             r"(😂|🤣|😹|😆|😁|💀)+",
             r"\b(laughed|laugh(ed|ing|ter)?)\b"
         ],
-        "mental_health": [
-            r"\b(burnout|anxiety|depression|mental health)\b",
-            r"\b(breakdown|healing|therapy|struggling)\b",
-            r"\b(stressed|panic|coping|trauma|triggered)\b",
-            r"\b(overwhelmed|isolation|sleep disorder)\b",
-            r"\b(self-care|resilience|inner work|mindset)\b",
-            r"\b(addiction|ADHD|bi[- ]?polar|PTSD)\b",
-        ],
+        
         "dreams": [
             r"\b(dream(ed|s|ing)?|nightmare|lucid)\b",
             r"\b(surreal|vision|dreamlike|fantasy|symbolic)\b",
@@ -533,6 +593,7 @@ def suggest_tags(text, top_n=5):
             r"\b(privileged|wealth|affluent|elite|rich|upperclass|wealthy)\b",
         ],
     },
+
     "world_affairs": {
         "geopolitics": [
             r"\b(geopolitics|geopolitical|realpolitik|strategic interests|global order|world order)\b",
@@ -582,40 +643,41 @@ def suggest_tags(text, top_n=5):
         ],
     },
 
-    "routines_plans": [
-        r"\b(routine|habit|ritual|practice|schedule|regimen|pattern|plan)\b",
-        r"\b(daily|weekly|monthly|regularly|consistently|nightly)\b",
-        r"\b(set|strict|flexible|changing|adjustable|consistent) (schedule|routine|habits|practices)\b",
-        r"\b(always|usually|typically|normally|generally|often|regularly|consistently|habitually) (do|does|start|begin|end|finish)\b",
-        r"\b(morning|night|evening|afternoon|day|weekend|weekday) routine\b",
-        r"\b(every|each) (day|morning|night|evening|monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekend|week|month)\b",
-        r"\b(every day|each day|every morning|every night|every week|every weekend)\b",
-        r"\b(first thing in the morning|last thing at night)\b",
-        r"\b(in the morning|in the afternoon|in the evening|tonight)\b",
-        r"\b(tomorrow|this weekend|next week)\b",
-        r"\b(first thing|last thing|before|after) (in the morning|at night|i wake up|i go to bed|breakfast|lunch|dinner|work|exercise)\b",
-        r"\b(wake up|get up|rise|sleep|go to bed|eat|shower|exercise|meditate|work|commute|travel|pray|prayer)\b",
-        r"\b(before work|after work|after lunch|before dinner|after class|before gym|after meeting)\b",
-        r"\b(coffee|lunch|dinner)\b",
-        r"\b(meeting|appointment|cancel|confirm|reschedule)\b",
-        r"\b(plan ahead|same time|same place|a good day for)\b",
-        r"\b(what time|when again|early|on time|late|soon|later)\b",
-        r"\b(text me|call me|remind me|hit me up|check in|ping me|follow up|circle back)\b",
-        r"\b(let's link|link up|see you then|see you soon)\b",
-        r"\b(pickup|dropoff|scoop|ride|go to|drive to|head to|meet (at|up))\b",
-        r"\b(be there|where you at|you around|running late)\b",
-        r"\b(i'm on my way|omw|on my way|i'll be there|i'm there|i'm heading out)\b",
-        r"\b(i usually|i typically|i always|i try to|i tend to)\b",
-        r"\b(i('m| am)? (usually|typically|always|try to|tend to))\b",
-        r"\b(cab it|subway|uber|lyft|rush(ing)?|zip[- ]?car|drive|driving)\b",
-        r"\b(habits|habitual(ly)?)\b"
-    ],
+    "routines_plans": {
+        "general": [
+            r"\b(routine|habit|ritual|practice|schedule|regimen|pattern|plan)\b",
+            r"\b(daily|weekly|monthly|regularly|consistently|nightly)\b",
+            r"\b(set|strict|flexible|changing|adjustable|consistent) (schedule|routine|habits|practices)\b",
+            r"\b(always|usually|typically|normally|generally|often|regularly|consistently|habitually) (do|does|start|begin|end|finish)\b",
+            r"\b(morning|night|evening|afternoon|day|weekend|weekday) routine\b",
+            r"\b(every|each) (day|morning|night|evening|monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekend|week|month)\b",
+            r"\b(every day|each day|every morning|every night|every week|every weekend)\b",
+            r"\b(first thing in the morning|last thing at night)\b",
+            r"\b(in the morning|in the afternoon|in the evening|tonight)\b",
+            r"\b(tomorrow|this weekend|next week)\b",
+            r"\b(first thing|last thing|before|after) (in the morning|at night|i wake up|i go to bed|breakfast|lunch|dinner|work|exercise)\b",
+            r"\b(wake up|get up|rise|sleep|go to bed|eat|shower|exercise|meditate|work|commute|travel|pray|prayer)\b",
+            r"\b(before work|after work|after lunch|before dinner|after class|before gym|after meeting)\b",
+            r"\b(coffee|lunch|dinner)\b",
+            r"\b(meeting|appointment|cancel|confirm|reschedule)\b",
+            r"\b(plan ahead|same time|same place|a good day for)\b",
+            r"\b(what time|when again|early|on time|late|soon|later)\b",
+            r"\b(text me|call me|remind me|hit me up|check in|ping me|follow up|circle back)\b",
+            r"\b(let's link|link up|see you then|see you soon)\b",
+            r"\b(pickup|dropoff|scoop|ride|go to|drive to|head to|meet (at|up))\b",
+            r"\b(be there|where you at|you around|running late)\b",
+            r"\b(i'm on my way|omw|on my way|i'll be there|i'm there|i'm heading out)\b",
+            r"\b(i usually|i typically|i always|i try to|i tend to)\b",
+            r"\b(i('m| am)? (usually|typically|always|try to|tend to))\b",
+            r"\b(cab it|subway|uber|lyft|rush(ing)?|zip[- ]?car|drive|driving)\b",
+            r"\b(habits|habitual(ly)?)\b"
+        ],
+    },
 
     "health": {
         "lifestyle": [
             r"\b(eat healthier|fasting|intermittent fasting|cook|drink water|smoothie|diet)\b",
         ],
-
         "fitness": [
             r"\b(gym|workout|exercise|weight|cardio|stretch|yoga|pilates|hiit)\b",
             r"\b(crossfit|bjj|lift|jiu jitsu|jits|zumba|spin|kickboxing|barre)\b", 
@@ -623,15 +685,13 @@ def suggest_tags(text, top_n=5):
             r"\b(crossfit|squat|bench|deadlift|overhead|press|row|pull[- ]?up|chin[- ]?up)\b",
             r"\b(dips|plank|bike|biking|swim|swimming|jog|jogging|triathlon|rippetoe|yolked|brollick|hench|ppl split|getting big|a run|maximus|testosterone)\b",
         ],
-
         "mental": [
             r"\b(burnout|anxiety|depression|mental health|breakdown|healing|psychologist)\b",
-            r"\b(struggling|panic|coping|trauma|triggered|overwhelmed|isolation|stress|stressed)\b",
-            r"\b(sleep disorder|self-care|resilience|inner work|mindset|alcoholism|addiction|adhd)\b",
-            r"\b(bipolar|ptsd|schizophrenia|antidepressant|psychiatrist|therapy|therapist|emotional support)\b",
-            r"\b(shrink|anxious|depressed|overwhelmed|triggered|stressed|anxious|depressed|overwhelmed|triggered|stressed)\b",
+            r"\b(struggling|panic|coping|trauma|triggered|overwhelmed|isolation|stress(ed|ful))\b",
+            r"\b(sleep disorder|self-care|resilience|inner work|mindset|adhd|dyslexi(c|a))\b",
+            r"\b(bi[- ]?polar|ptsd|schizophrenia|antidepressant|psychiatr(ist|ic|y)|therapy|therapist|emotional support)\b",
+            r"\b(shrink|anxious|depressed|overwhelmed|triggered|depressed|overwhelmed|triggered)\b",
         ],
-
         "medical": [
             r"\b(health|healthcare|medical|wellness|illness|sick|sickness|symptom|condition)\b",
             r"\b(diagnosis|treatment|clinic|hospital|appointment|checkup|followup|prescription|rx|meds|medicine|pill|pills|tablet|dose|dosing|dosage)\b",
@@ -666,6 +726,7 @@ def suggest_tags(text, top_n=5):
             r"\b(insurance|copay|deductible|claim|coverage|out-of-pocket|in-network|hmo|ppo)\b",
         ]
     },
+
     "drugs_recovery": {
         "meetings": [
             r"\b(na|aa|ca|chairing|day count|fast break|perry street|monday men)\b", 
@@ -678,12 +739,10 @@ def suggest_tags(text, top_n=5):
             r"\b(zoom meeting|closed meeting|open meeting|fellowship|90 days)\b",
             r"\b(perry|perry st)\b",
         ],
-
         "treatment": [
             r"\b(rehab|treatment|detox|residential|inpatient|outpatient|sober living|halfway house|recovery center|treatment facility)\b",
             r"\b(suboxone|methadone|iop|rmg|mountainside|ascendant)\b",
         ],
-
         "substances": [
             r"\b(fentanyl|heroin|cocaine|blow|meth|methamphetamine|benzos|xanax|oxy|oxies|oxycodone|oxycontin|painkillers|opiates)\b",
             r"\b(opioids|weed|marijuana|alcohol|booze|liquor|addies)\b", 
@@ -696,7 +755,6 @@ def suggest_tags(text, top_n=5):
             r"\b(dealer|buying|pick(ing)? up|copping|stash)\b",
             r"\b(binge|tweaking|bender|blackout|nodding (out|off))\b",
         ],
-
         "addiction": [
             r"\b(addiction|alcoholic|alcoholism|junkie|clean|sober)\b", 
             r"\b(sobriety|relapse|relapsing|slip|clean date|sober date)\b", 
@@ -707,7 +765,6 @@ def suggest_tags(text, top_n=5):
             r"\b(triggers|triggered|temptation|clean time|accountability)\b",
             r"\b(intervention)\b"
         ],
-
         "spiritual": [
             r"\b(spiritual(ity|ness| growth)?|spiritual awakening|inventory|amends|self-will|self-destructive)\b", 
             r"\b(higher power|power greater than myself|making amends|emotional sobriety)\b",
@@ -736,7 +793,7 @@ def suggest_tags(text, top_n=5):
             r"\b(smok(ing|e)? (cigs?|cigarettes|ciggie(s)?|stogies|stokes|stogs|newports|marlboros)|lit up a (cig|square))\b",
             r"\b(rager|kegger|black(ed)? out)\b",
             r"\b(wild(ing)? (out)?|going nuts|acting up|run(ning)? amok|being reckless|lost (our|my) shit|out of control|rowdy|raising hell)\b",
-            r"\b(egging|egg(ed)? (a house|cars?|someone|people's houses))\b",
+            r"\b(egg(ed|ing)?) (a|this|people('s)?|someone('s)?)( house(s)?|car(s)?)?\b",
             r"\b(mailbox baseball|ding dong ditch|toilet paper(ed|ing)?|t[-\-]?pee(ed)? a (house|tree))\b",
             r"\b(jumped a fence|sprinted from|ran from the cops)\b",
             r"\b(me and (the guys|the boys|the homies|my crew|my friends))\b.*\b(wild|crazy|rowdy|lit|nuts|caused (chaos|trouble))\b",
@@ -757,9 +814,12 @@ def suggest_tags(text, top_n=5):
             r"\b(yoked|bro|slang|jargon|yo|pisshead|funny|lmao|lol|nigga|negro)\b",
             r"\b(haha|joke|bingo|dong|alpha retard|pissy pants carey|prison pocket)\b", 
             r"\b(cheffing it up|brick|yoonga|slop|shit show|morale patch|broads|degenerate)\b",
-            r"\b(craig ferguson intro|dude wheres my car|dope|pretty sick|slaphead|dooope|aight)\b",
+            r"\b(craig ferguson intro|dude wheres my car|slaphead|dooope|aight)\b",
             r"\b(aye|aiii|eyoo|homie|pleb|peasant|fucking|neighborhood cat killer|🙄|fuckin)\b",
             r"\b(jew|fuckface|mobb|tatts)\b",
+            r"\b((was|is|be)( super )?(dope|tight))\b",
+            r"\b(tight\s+tight|super\s+dope|that'?s\s+(dope|fire)|so\s+money|fucking\s+fire|(?:is|was|be)\s+fire|straight\s+gas|is\s+gas|banger|that'?s?\s+slaps|this\s+slaps|it\s+slaps|shit\s+slaps)\b|[🔥💯]{1,}",
+            r"\b(sick at|that'?s sick)\b",
         ],
         "current_events": [
             r"\b(current events?|recent (news|stories|coverage|developments))\b",
@@ -785,7 +845,6 @@ def suggest_tags(text, top_n=5):
             r"\b(man city|the match|kick off|bassey|ffc|west london|tottenham|tottenhams|soccer|euros)\b",
             r"\b(fifa|feefs|england|premier league)\b",
         ],
-
         "guns": [
             r"\b(ar|shotty|mossberg|rifle|handgun|ar-15|pistol|slug|shell|rounds|indemnity organization)\b",
             r"\b(the range|hollow[- ]?points?)\b",
@@ -890,7 +949,7 @@ def suggest_tags(text, top_n=5):
         ]
     },               
 }   
-   # Clean the text by removing non-alphabetic characters and converting to lowercase
+  # Clean the text by removing non-alphabetic characters and converting to lowercase
     text_lower = text.lower()
     
     # Calculate scores for each tag by counting keyword occurrences

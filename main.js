@@ -230,8 +230,13 @@ ipcMain.handle("transcribe-audio", async (event, filePath, title, instruction, m
   if (!filePath || filePath === "undefined") {
     return "Error: No valid file path provided";
   }
+  
+  // Ensure all parameters have values
+  title = title || "Untitled";
+  instruction = instruction || "Transcribe this audio";
+  mode = mode || "rag";
 
-  const defaultFileName = `${(title || instruction).replace(/\s+/g, "_").toLowerCase()}.jsonl`;
+  const defaultFileName = `${(title || "transcription").replace(/\s+/g, "_").toLowerCase()}.jsonl`;
   const defaultSavePath = path.join(defaultSaveDirectory, defaultFileName);
 
   const saveDialog = await dialog.showSaveDialog({
@@ -248,14 +253,23 @@ ipcMain.handle("transcribe-audio", async (event, filePath, title, instruction, m
   defaultSaveDirectory = path.dirname(saveDialog.filePath);
   saveDirectoryPreferences();
 
-  return runPython("transcribe.py", [
-    filePath,
-    title || "",
-    instruction || "",
-    mode,
-    saveDialog.filePath,
-  ]);
+  // Use the original output path without modifying spaces
+  let outputPath = saveDialog.filePath;
+
+  try {
+    return await runPython("transcribe.py", [
+      filePath,
+      title,
+      instruction,
+      mode,
+      outputPath,
+    ]);
+  } catch (error) {
+    console.error("Error in transcribe-audio handler:", error);
+    return `Error occurred during transcription: ${error}`;
+  }
 });
+
 
 /**
  * Python script execution function
@@ -284,11 +298,19 @@ function runPython(scriptName, args) {
         : arg
     );
 
-      const venvPython = process.platform === "win32" 
-        ? path.join(__dirname, "backend", "venv", "Scripts", "python.exe")
-        : path.join(__dirname, "backend", "venv", "bin", "python");
+    // Correct venv Python path based on OS
+    const venvPython = process.platform === "win32"
+      ? path.join(__dirname, "backend", "venv", "Scripts", "python.exe")
+      : path.join(__dirname, "backend", "venv", "bin", "python3.10");
+
     const scriptPath = path.join(__dirname, "backend", scriptName);
 
+    console.log(`Running Python script with arguments:`);
+    console.log(`Python: ${venvPython}`);
+    console.log(`Script: ${scriptPath}`);
+    console.log(`Args: ${JSON.stringify(normalizedArgs)}`);
+
+    // Don't use shell: true to avoid quoting issues
     const subprocess = spawn(venvPython, [scriptPath, ...normalizedArgs], {
       cwd: path.join(__dirname, "backend"),
     });
@@ -296,12 +318,27 @@ function runPython(scriptName, args) {
     let output = "";
     let errorOutput = "";
 
-    subprocess.stdout.on("data", data => (output += data.toString()));
-    subprocess.stderr.on("data", data => (errorOutput += data.toString()));
+    subprocess.stdout.on("data", data => {
+      const chunk = data.toString();
+      console.log(`Python stdout: ${chunk}`);
+      output += chunk;
+    });
+    
+    subprocess.stderr.on("data", data => {
+      const chunk = data.toString();
+      console.error(`Python stderr: ${chunk}`);
+      errorOutput += chunk;
+    });
 
     subprocess.on("close", code => {
+      console.log(`Python script exited with code: ${code}`);
       if (code === 0) resolve(output.trim());
       else reject(errorOutput || `Script exited with code ${code}`);
+    });
+    
+    subprocess.on("error", (err) => {
+      console.error(`Failed to start subprocess: ${err}`);
+      reject(`Failed to start subprocess: ${err}`);
     });
   });
 }
