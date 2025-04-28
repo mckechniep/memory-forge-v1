@@ -30,14 +30,65 @@ Built with Electron + Python + Whisper + OpenAI.
 
 ##  Setup Instructions
 
+### Linux & MacOS
+
+#### Initial Setup (First Time Only)
+
+```shell
+# Clone the repository
+git clone https://github.com/mckechniep/memory-forge-v1.git
+```
+
+```shell
+# Navigate to project
+cd memory-forge-v1
+```
+
+```shell
+# Install Node.js dependencies
+npm install
+```
+
+```shell
+# Set up Python virtual environment
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+```
+
+```shell
+# Install Python dependencies in virtual environment
+pip install -r requirements.txt
+```
+
+```shell
+# Create your .env file inside /backend and add your OpenAI API key
+nano .env
+# Add this line:
+# OPENAI_API_KEY=your-openai-key-here
+# Save it (CTRL+0, ENTER, CTRL+X in nano)
+```
+
+```shell
+# Exit backend directory to project root
+cd ..
+```
+
+```shell
+# Run memory-forge-v1 application
+npm start
+```
+
+### Windows
+
 1. **Clone the repo**
 
 ```bash
-git clone https://github.com/yourusername/memory-forge.git
-cd memory-forge
+git clone https://github.com/mckechniep/memory-forge-v1.git
+cd memory-forge-v1
 ```
 
-2. **Run setup.bat** (Windows only)
+2. **Run setup.bat** 
 
 ```bash
 ./setup.bat
